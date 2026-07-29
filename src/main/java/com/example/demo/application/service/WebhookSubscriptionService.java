@@ -1,10 +1,12 @@
 package com.example.demo.application.service;
 
+import com.example.demo.application.dto.WebhookDeliveryResponse;
 import com.example.demo.application.dto.WebhookSubscriptionRequest;
 import com.example.demo.application.dto.WebhookSubscriptionResponse;
 import com.example.demo.application.mapper.WebhookMapper;
 import com.example.demo.domain.exception.NotFoundException;
 import com.example.demo.domain.model.WebhookSubscription;
+import com.example.demo.domain.repository.WebhookDeliveryRepository;
 import com.example.demo.domain.repository.WebhookSubscriptionRepository;
 import com.example.demo.infrastructure.webhook.WebhookSigner;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 public class WebhookSubscriptionService {
 
     private final WebhookSubscriptionRepository repository;
+    private final WebhookDeliveryRepository deliveryRepository;
     private final WebhookMapper mapper;
     private final WebhookSigner signer;
 
@@ -60,6 +63,14 @@ public class WebhookSubscriptionService {
     @Transactional
     public void delete(Long id) {
         repository.delete(buscar(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<WebhookDeliveryResponse> findDeliveries(Long subscriptionId) {
+        buscar(subscriptionId);
+        return deliveryRepository.findBySubscriptionIdOrderByIdDesc(subscriptionId).stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
     private WebhookSubscription buscar(Long id) {

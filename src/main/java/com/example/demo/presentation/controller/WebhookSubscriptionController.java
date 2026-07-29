@@ -1,5 +1,6 @@
 package com.example.demo.presentation.controller;
 
+import com.example.demo.application.dto.WebhookDeliveryResponse;
 import com.example.demo.application.dto.WebhookSubscriptionRequest;
 import com.example.demo.application.dto.WebhookSubscriptionResponse;
 import com.example.demo.application.service.WebhookSubscriptionService;
@@ -45,5 +46,11 @@ public class WebhookSubscriptionController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /** Historico de entregas da inscricao, com status HTTP e numero de tentativas. */
+    @GetMapping("/{id}/deliveries")
+    public List<WebhookDeliveryResponse> findDeliveries(@PathVariable Long id) {
+        return service.findDeliveries(id);
     }
 }
