@@ -1,4 +1,4 @@
-# Demo — EDA + Webhooks
+EDA + Webhooks
 
 API Spring Boot que publica eventos de dominio e os entrega a consumidores externos via webhook HTTP.
 
