@@ -17,7 +17,6 @@ import java.time.Instant;
 @Builder
 public class Usuario {
 
-
     @Id
     @GeneratedValue(strategy = Generation.IDENTITY)
     private Long id;
@@ -28,13 +27,16 @@ public class Usuario {
     @Column(name="email", nullable=false, unique=true)
     private String email;
 
-    @Column(nullable=false, updateable=false, name="created_at")
+    @Column(nullable=false, updatable=false, name="created_at")
     private Instant created_at;
+
+    @Column(nullable=false, insertable=false, name="updated_at")
+    private Instant updated_at;
 
     @PrePersist
     void onSave(){
         if(created_at == null){
-            this.created_at= Instant.now();
+            this.created_at = Instant.now();
         }
     }
 
