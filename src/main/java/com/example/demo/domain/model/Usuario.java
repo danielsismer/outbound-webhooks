@@ -40,4 +40,18 @@ public class Usuario {
         }
     }
 
+    @PreUpdate
+    void onUpdate(){
+        if(updated_at == null){
+            this.updated_at = Instant.now();
+        }
+    }
+
+    public Usuario (String name, String email){
+        this.name = name;
+        this.email = email;
+    }
+
+
+
 }
