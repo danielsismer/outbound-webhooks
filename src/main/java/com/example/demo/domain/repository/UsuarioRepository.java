@@ -16,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                 ON d.id = s.delivered_by
                 WHERE w.id = :id"
         , nativeQuery=true)
-        public Usuario findUserByWebhook(@Param("id") UUID id)
+        public Usuario findUserByWebhook(@Param("id") UUID id);
     
-\
+
 }
