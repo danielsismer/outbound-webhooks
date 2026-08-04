@@ -9,31 +9,33 @@ import lombok.Setter;
 import java.time.Instant;
 
 @Entity
+@Table(name="users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuario")
+@Builder
 public class Usuario {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = Generation.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nome;
+    @Column(name="name", nullable=false)
+    private String name;
 
-    @Column(name = "criado_em", nullable = false, updatable = false)
-    private Instant criadoEm;
+    @Column(name="email", nullable=false, unique=true)
+    private String email;
 
-    public Usuario(String nome) {
-        this.nome = nome;
-    }
+    @Column(nullable=false, updateable=false, name="created_at")
+    private Instant created_at;
 
     @PrePersist
-    void aoCriar() {
-        if (criadoEm == null) {
-            criadoEm = Instant.now();
+    void onSave(){
+        if(created_at == null){
+            this.created_at= Instant.now();
         }
     }
+
 }
